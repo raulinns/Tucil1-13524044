@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
 
 public class Solver {
     public record Koordinat(int x, int y) {}
@@ -116,7 +119,6 @@ public class Solver {
                     String[] chars = line.split("");
                     board[r] = chars;
                     r++;
-
                 }
             }
             sc.close();
@@ -159,6 +161,29 @@ public class Solver {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public static void saveToFile(String filePath, Koordinat[] queenLocation) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+            int n = board.length;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    boolean isQueen = false;
+                    for (Koordinat q : queenLocation) {
+                        if (q.x() == i && q.y() == j) {
+                            isQueen = true;
+                            break;
+                        }
+                    }
+                    if (isQueen) writer.print("#");
+                    else writer.print(board[i][j]);
+                }
+                writer.println();
+            }
+            System.out.println("Solusi berhasil disimpan ke: " + filePath);
+        } catch (IOException e) {
+            System.out.println("Gagal menyimpan file: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {

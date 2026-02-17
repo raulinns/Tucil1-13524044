@@ -2,22 +2,22 @@ package queens;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import javafx.scene.image.WritableImage;
-import javafx.embed.swing.SwingFXUtils;
-import javax.imageio.ImageIO;
 import java.io.File;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 public class Main extends Application {
     private GridPane boardGrid = new GridPane();
@@ -65,7 +65,11 @@ public class Main extends Application {
 
                                 if (!loaded) {
                                     Platform.runLater(
-                                            () -> statusLabel.setText("File tidak valid! (Konfigurasi papan tidak valid/file tidak ditemukan)"));
+                                            () ->
+                                                    statusLabel.setText(
+                                                            "File tidak valid! (Konfigurasi papan"
+                                                                    + " tidak valid/file tidak"
+                                                                    + " ditemukan)"));
                                     return;
                                 }
 
@@ -106,6 +110,11 @@ public class Main extends Application {
                                                                 + Solver.totalKasus);
                                                 renderBoard(Solver.board, queenLocation);
                                                 saveAsImage(fileName.replace(".txt", ""));
+                                                String txtPath =
+                                                        "src/main/output/"
+                                                                + fileName.replace(
+                                                                        ".txt", "_solusi.txt");
+                                                Solver.saveToFile(txtPath, queenLocation);
                                             } else {
                                                 statusLabel.setText("Tidak ada solusi!");
                                             }
