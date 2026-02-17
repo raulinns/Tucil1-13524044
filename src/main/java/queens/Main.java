@@ -11,6 +11,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import javafx.scene.image.WritableImage;
+import javafx.embed.swing.SwingFXUtils;
+import javax.imageio.ImageIO;
+import java.io.File;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +32,6 @@ public class Main extends Application {
         root.setAlignment(Pos.CENTER);
         root.setStyle("-fx-background-color: #f4f4f4;");
 
-        // Panel Kontrol
         HBox controls = new HBox(10);
         controls.setAlignment(Pos.CENTER);
         fileInput.setPromptText("Nama file tc...");
@@ -37,7 +41,6 @@ public class Main extends Application {
 
         controls.getChildren().addAll(fileInput, solveBtn);
 
-        // Papan Visual
         boardGrid.setAlignment(Pos.CENTER);
         boardGrid.setPadding(new Insets(10));
 
@@ -62,7 +65,7 @@ public class Main extends Application {
 
                                 if (!loaded) {
                                     Platform.runLater(
-                                            () -> statusLabel.setText("File tidak ditemukan"));
+                                            () -> statusLabel.setText("File tidak valid! (Konfigurasi papan tidak valid/file tidak ditemukan)"));
                                     return;
                                 }
 
@@ -102,6 +105,7 @@ public class Main extends Application {
                                                                 + "Banyak kasus yang ditinjau: "
                                                                 + Solver.totalKasus);
                                                 renderBoard(Solver.board, queenLocation);
+                                                saveAsImage(fileName.replace(".txt", ""));
                                             } else {
                                                 statusLabel.setText("Tidak ada solusi!");
                                             }
@@ -120,7 +124,6 @@ public class Main extends Application {
         boardGrid.getChildren().clear();
         int n = board.length;
 
-        // Hitung ukuran cell agar muat di layar (misal max 600px total)
         double cellSize = Math.min(600.0 / n, 50.0);
         double fontSize = cellSize * 0.5;
 
@@ -129,11 +132,10 @@ public class Main extends Application {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 StackPane cell = new StackPane();
-                Rectangle rect = new Rectangle(cellSize, cellSize); // Gunakan cellSize dinamis
+                Rectangle rect = new Rectangle(cellSize, cellSize);
                 rect.setFill(colorMap.getOrDefault(board[i][j], Color.LIGHTGRAY));
                 rect.setStroke(Color.BLACK);
-                rect.setStrokeWidth(0.2); // Stroke lebih tipis untuk board besar
-
+                rect.setStrokeWidth(0.2);
                 cell.getChildren().add(rect);
 
                 for (Solver.Koordinat q : solution) {
@@ -151,7 +153,6 @@ public class Main extends Application {
 
     private void generateColorMap(String[][] board) {
         colorMap.clear();
-        // Palet 26 warna yang kontras untuk mendukung region A-Z
         Color[] palette = {
             Color.LIGHTPINK, Color.LIGHTSKYBLUE, Color.LIGHTGREEN, Color.LIGHTCORAL,
             Color.LIGHTGOLDENRODYELLOW, Color.MEDIUMPURPLE, Color.ORANGE, Color.AQUAMARINE,
@@ -166,11 +167,23 @@ public class Main extends Application {
         for (String[] row : board) {
             for (String cell : row) {
                 if (!colorMap.containsKey(cell)) {
-                    // Mengambil warna dari palet, jika lebih dari 26 akan looping (modulo)
                     colorMap.put(cell, palette[colorIdx % palette.length]);
                     colorIdx++;
                 }
             }
+        }
+    }
+
+    private void saveAsImage(String fileName) {
+        try {
+            WritableImage snapshot = boardGrid.snapshot(null, null);
+            File outputFile = new File("src/main/output/" + fileName + ".png");
+            ImageIO.write(SwingFXUtils.fromFXImage(snapshot, null), "png", outputFile);
+
+            System.out.println(
+                    "Papan berhasil disimpan sebagai gambar: " + outputFile.getAbsolutePath());
+        } catch (Exception e) {
+            System.out.println("Gagal menyimpan gambar: " + e.getMessage());
         }
     }
 

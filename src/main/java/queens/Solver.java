@@ -18,7 +18,7 @@ public class Solver {
 
         while (true) {
             totalKasus++;
-            int print = (n < 7) ? 1000 : 1000000;
+            int print = (n < 9) ? 1000 : 1000000;
             if (totalKasus % print == 0) {
                 if (onStep != null) {
                     onStep.accept(queenLocation);
@@ -108,9 +108,15 @@ public class Solver {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().trim();
                 if (!line.isEmpty()) {
+                    if (line.length() != n) {
+                        sc.close();
+                        return false;
+                    }
+
                     String[] chars = line.split("");
                     board[r] = chars;
                     r++;
+
                 }
             }
             sc.close();
