@@ -12,10 +12,13 @@ Program ini menggunakan algoritma **Brute Force** murni untuk menemukan solusi p
 
 ## Struktur Repositori
 
-* **bin**: Berisi file executable atau hasil kompilasi program.
-* **doc**: Berisi spesifikasi dan laporan tugas kecil dalam format PDF.
-* **src**: Berisi *source code* program.
-* **src/main/input**: Berisi file uji (*test case*) dalam format `.txt`.
+* **doc/**: Berisi spesifikasi dan laporan tugas kecil dalam format PDF.
+* **src/**: Berisi *source code* program.
+* **src/main/java/queens/**: Berisi kode sumber dan algoritma untuk program.
+* **src/main/input/**: Berisi kasus uji (*test case*) dalam format `.txt`.
+* **src/main/output/**: Berisi hasil kalkulasi dari kasus uji dalam bentuk gambar `.png`.
+* **test/**: Berisi hasil kasus uji yang digunakan dalam laporan.
+* **pom.xml**: File konfigurasi yang digunakan **Apache Maven** untuk mengelola dependensi program.
 
 ## Requirement Program
 
