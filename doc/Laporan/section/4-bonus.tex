@@ -1,22 +1,30 @@
-\section{Implementasi Spesifikasi Bonus}\label{sub:Implementasi Spesifikasi Bonus} % (fold)
+\section{Implementasi Spesifikasi Bonus}\label{sub:Implementasi
+Spesifikasi Bonus} % (fold)
 \subsection{GUI}\label{sub:GUI} % (fold)
 
 Dalam \texttt{Main.java}, struktur komponen digunakan sebagai berikut.
 \begin{itemize}
     \item Stage \& Scene sebagai kontainer utama.
     \item VBox (Root). Layout utama untuk elemen disusun secara vertikal.
-    \item Hbox. Baris horizontal berisi \texttt{TextField} untuk \textit{input} nama \textit{file} dan \texttt{Button} untuk memulai penyelesaian.
+    \item Hbox. Baris horizontal berisi \texttt{TextField} untuk
+        \textit{input} nama \textit{file} dan \texttt{Button} untuk
+        memulai penyelesaian.
     \item GridPane. Komponen untuk me-\textit{render} papan.
 \end{itemize}
 
-Untuk memastikan GUI tetap responsif saat menjalankan algoritma, program ini menerapkan \textit{multithreading} untuk memisahkan perhitungan algoritma dengan menampilkan hasil perhitungan.
+Untuk memastikan GUI tetap responsif saat menjalankan algoritma,
+program ini menerapkan \textit{multithreading} untuk memisahkan
+perhitungan algoritma dengan menampilkan hasil perhitungan.
 \begin{enumerate}
-    \item Algoritma \texttt{Solver.solve} dijalankan di dalam \textit{thread} terpisah.
+    \item Algoritma \texttt{Solver.solve} dijalankan di dalam
+        \textit{thread} terpisah.
     \item \texttt{Solver} menerima objek \texttt{Consumer}.
-    \item \texttt{Platform.runLater()} memperbarui tampilan papan dari \textit{thread} dari nomor 1.
+    \item \texttt{Platform.runLater()} memperbarui tampilan papan
+        dari \textit{thread} dari nomor 1.
 \end{enumerate}
 
-Fungsi \texttt{renderBoard} merupakan fungsi utama yang menampilkan \texttt{String[]][] board} dari \texttt{Solver} dalam GUI.
+Fungsi \texttt{renderBoard} merupakan fungsi utama yang menampilkan
+\texttt{String[]][] board} dari \texttt{Solver} dalam GUI.
 \begin{lstlisting}[language=Java, basicstyle=\ttfamily\small, breaklines=true]
      private void renderBoard(String[][] board, Solver.Koordinat[] solution) {
         boardGrid.getChildren().clear();
@@ -33,7 +41,7 @@ Fungsi \texttt{renderBoard} merupakan fungsi utama yang menampilkan \texttt{Stri
                 Rectangle rect = new Rectangle(cellSize, cellSize);
                 rect.setFill(colorMap.getOrDefault(board[i][j], Color.LIGHTGRAY));
                 rect.setStroke(Color.BLACK);
-                rect.setStrokeWidth(0.2); 
+                rect.setStrokeWidth(0.2);
                 cell.getChildren().add(rect);
 
                 for (Solver.Koordinat q : solution) {
@@ -50,7 +58,9 @@ Fungsi \texttt{renderBoard} merupakan fungsi utama yang menampilkan \texttt{Stri
     }
 \end{lstlisting}
 
-Algoritma ini merubah koordinat dalam \texttt{board} dengan \textit{cell} dengan warna yang berbeda-beda yang diberikan oleh fungsi \texttt{generateColorMap}.
+Algoritma ini merubah koordinat dalam \texttt{board} dengan
+\textit{cell} dengan warna yang berbeda-beda yang diberikan oleh
+fungsi \texttt{generateColorMap}.
 % subsection GUI (end)
 
 \subsection{Output as Image}\label{sub:Output as Image} % (fold)
@@ -67,6 +77,8 @@ Algoritma ini merubah koordinat dalam \texttt{board} dengan \textit{cell} dengan
 }
 \end{lstlisting}
 
-Algoritma ini mengambil tangkapan dari \texttt{boardGrid}, lalu menyimpannya dalam \textit{folder} \texttt{src/main/output/}. Untuk keseragaman \textit{output} dikonversi menuju format \texttt{.png}.
+Algoritma ini mengambil tangkapan dari \texttt{boardGrid}, lalu
+menyimpannya dalam \textit{folder} \texttt{src/main/output/}. Untuk
+keseragaman \textit{output} dikonversi menuju format \texttt{.png}.
 % subsection Output as Image (end)
 % section Implementasi Spesifikasi Bonus (end)
